@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import Image from 'next/image';
 import { useCart } from '@/context/CartContext';
 import { useAuth } from '@/context/AuthContext';
 import { useState, useEffect } from 'react';
@@ -46,25 +47,14 @@ export default function Header() {
         {/* Center: Logo and Title */}
         <Link href="/" className={styles.logo}>
           <div className={styles.logoIcon}>
-            <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="20" cy="20" r="18" fill="#697630" />
-              <path
-                d="M20 8C20 8 25 12 25 18C25 24 20 28 20 28C20 28 15 24 15 18C15 12 20 8 20 8Z"
-                fill="#FDF9EE"
-              />
-              <path
-                d="M12 15C12 15 16 17 18 22C20 27 18 32 18 32"
-                stroke="#FDF9EE"
-                strokeWidth="2"
-                strokeLinecap="round"
-              />
-              <path
-                d="M28 15C28 15 24 17 22 22C20 27 22 32 22 32"
-                stroke="#FDF9EE"
-                strokeWidth="2"
-                strokeLinecap="round"
-              />
-            </svg>
+            <Image
+              src="/images/logo.png"
+              alt="Gừng's Corner"
+              width={40}
+              height={40}
+              priority
+              style={{ objectFit: 'contain' }}
+            />
           </div>
           <span className={styles.logoText}>Gừng&apos;s Corner</span>
         </Link>
