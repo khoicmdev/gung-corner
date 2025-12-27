@@ -1,0 +1,146 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
+}
+
+.imageWrapper {
+  position: relative;
+  aspect-ratio: 1;
+  overflow: hidden;
+  background: #f5f5f5;
+}
+
+.image {
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.card:hover .image {
+  transform: scale(1.05);
+}
+
+.placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+}
+
+/* Admin Overlay */
+.adminOverlay {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  display: flex;
+  gap: 8px;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.card:hover .adminOverlay {
+  opacity: 1;
+}
+
+.editBtn,
+.deleteBtn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.editBtn {
+  background: white;
+  color: #697630;
+}
+
+.editBtn:hover {
+  background: #697630;
+  color: white;
+}
+
+.deleteBtn {
+  background: white;
+  color: #ef4444;
+}
+
+.deleteBtn:hover {
+  background: #ef4444;
+  color: white;
+}
+
+/* Badge */
+.badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background: #c9a227;
+  color: white;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Info */
+.info {
+  padding: 1rem;
+}
+
+.name {
+  display: block;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #2d2d2d;
+  text-decoration: none;
+  line-height: 1.4;
+  margin-bottom: 0.25rem;
+  transition: color 0.2s;
+}
+
+.name:hover {
+  color: #697630;
+}
+
+.category {
+  font-size: 0.85rem;
+  color: #6b7280;
+  margin: 0;
+}
+
+/* Add to Cart */
+.addToCart {
+  width: calc(100% - 2rem);
+  margin: 0 1rem 1rem;
+  padding: 0.875rem 1rem;
+  background: #697630;
+  color: white;
+  border: none;
+  border-radius: 50px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.addToCart:hover {
+  background: #4a5321;
+}
