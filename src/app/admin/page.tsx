@@ -7,6 +7,23 @@ import { useAuth } from '@/context/AuthContext';
 import { Product } from '@/types';
 import { getProducts, createProduct, updateProduct, deleteProduct, uploadImage } from '@/lib/productService';
 import styles from './page.module.css';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+
+// Category options matching Appwrite enum
+const CATEGORIES = [
+  { value: 'yogurt', label: 'Yogurt' },
+  { value: 'fruit', label: 'Fruit' },
+  { value: 'tofu', label: 'Tofu' },
+];
+
+// Capitalize first letter helper
+const capitalize = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
 
 interface ProductFormData {
   name: string;
@@ -98,8 +115,7 @@ export default function AdminPage() {
     try {
       const uploadedUrls: string[] = [];
       for (const file of Array.from(files)) {
-        const fileName = `${Date.now()}-${file.name}`;
-        const url = await uploadImage(file, fileName);
+        const url = await uploadImage(file);
         uploadedUrls.push(url);
       }
       setFormData(prev => ({
@@ -123,8 +139,8 @@ export default function AdminPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.name || !formData.price) {
-      alert('Please fill in name and price');
+    if (!formData.name || !formData.price || !formData.category) {
+      alert('Please fill in name, price and category');
       return;
     }
 
@@ -218,7 +234,7 @@ export default function AdminPage() {
               </div>
               <div className={styles.productInfo}>
                 <h3>{product.name}</h3>
-                <p className={styles.category}>{product.category}</p>
+                <p className={styles.category}>{capitalize(product.category)}</p>
                 <p className={styles.price}>{formatPrice(product.price)}</p>
               </div>
             </div>
@@ -269,13 +285,22 @@ export default function AdminPage() {
                   />
                 </div>
                 <div className={styles.formGroup}>
-                  <label>Category</label>
-                  <input
-                    type="text"
+                  <label>Category *</label>
+                  <Select
                     value={formData.category}
-                    onChange={e => setFormData(prev => ({ ...prev, category: e.target.value }))}
-                    placeholder="Sữa chua"
-                  />
+                    onValueChange={(value) => setFormData(prev => ({ ...prev, category: value }))}
+                  >
+                    <SelectTrigger className="w-full !h-[50px] text-[0.95rem]">
+                      <SelectValue placeholder="Select category" />
+                    </SelectTrigger>
+                    <SelectContent className="z-[300]">
+                      {CATEGORIES.map((cat) => (
+                        <SelectItem key={cat.value} value={cat.value} className="h-[50px] cursor-pointer text-[0.95rem]">
+                          {cat.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                 </div>
               </div>
 

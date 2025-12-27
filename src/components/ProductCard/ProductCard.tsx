@@ -7,6 +7,9 @@ import { useCart } from '@/context/CartContext';
 import { useAuth } from '@/context/AuthContext';
 import styles from './ProductCard.module.css';
 
+// Capitalize first letter helper
+const capitalize = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
+
 interface ProductCardProps {
   product: Product;
   onEdit?: (product: Product) => void;
@@ -102,7 +105,7 @@ export default function ProductCard({ product, onEdit, onDelete }: ProductCardPr
         <Link href={`/shop/${product.id}`} className={styles.name}>
           {product.name}
         </Link>
-        <p className={styles.category}>{product.category}</p>
+        <p className={styles.category}>{capitalize(product.category)}</p>
       </div>
 
       <button className={styles.addToCart} onClick={handleAddToCart}>

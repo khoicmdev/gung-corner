@@ -131,17 +131,21 @@ export async function deleteProduct(id: string): Promise<void> {
 export async function uploadImage(file: File): Promise<string> {
   const result = await storage.createFile(BUCKET_ID, ID.unique(), file);
 
-  // Get the file URL
-  const fileUrl = storage.getFilePreview(
-    BUCKET_ID,
-    result.$id,
-    800, // width
-    800, // height
-    undefined, // gravity
-    100 // quality
-  );
+  // Get the project ID from the client config
+  // We need to access the client configuration to get the project ID.
+  // Since 'storage' is an instance of Storage, we can access the client from the imported 'client' instance in appwrite.ts
+  // However, since we don't export 'client' directly, we can use the project ID from the environment or assume it's set.
+  // Let's use the explicit Project ID we have or get it from env if possible, but for now we'll use the one defined in appwrite.ts implicitly or hardcode/pass it if needed.
+  // Actually, we can import the client config or just use the hardcoded one since we know it.
+  // But better: let's import the specific constant if available, or just use the string since the user provided it.
+  // User provided: 69501d7d003850a1fcc4
+  const projectId = "69501d7d003850a1fcc4"; // This should match NEXT_PUBLIC_APPWRITE_PROJECT_ID
 
-  return fileUrl.toString();
+  // Construct the URL manually as requested
+  // https://sgp.cloud.appwrite.io/v1/storage/buckets/[bucketId]/files/[$id]/view?project=[projectId]&mode=admin
+  const fileUrl = `https://sgp.cloud.appwrite.io/v1/storage/buckets/${BUCKET_ID}/files/${result.$id}/view?project=${projectId}&mode=admin`;
+
+  return fileUrl;
 }
 
 // Delete image from Appwrite Storage

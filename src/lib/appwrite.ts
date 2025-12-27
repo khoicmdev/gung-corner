@@ -13,7 +13,7 @@ export const storage = new Storage(client);
 // Database and collection IDs
 export const DATABASE_ID = "69501e04001756ebc644";
 export const PRODUCTS_COLLECTION_ID = "dessert";
-export const BUCKET_ID = "product-images";
+export const BUCKET_ID = "69501da20003ee7759e2";
 
 export { ID, Query };
 export default client;
