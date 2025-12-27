@@ -23,6 +23,37 @@
   font-size: 1rem;
 }
 
+
+.filters {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.filterBtn {
+  padding: 0.5rem 1.5rem;
+  border-radius: 20px;
+  border: 1px solid #e5e7eb;
+  background: white;
+  color: #6b7280;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.filterBtn:hover {
+  border-color: #697630;
+  color: #697630;
+}
+
+.filterBtn.active {
+  background: #697630;
+  color: white;
+  border-color: #697630;
+}
+
 .grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);

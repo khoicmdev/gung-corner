@@ -9,6 +9,9 @@ import styles from './page.module.css';
 export default function ShopPage() {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
+  const [selectedCategory, setSelectedCategory] = useState('All');
+
+  const categories = ['All', 'Best Sellers', 'Yogurt', 'Fruit', 'Tofu'];
 
   useEffect(() => {
     async function loadProducts() {
@@ -24,6 +27,12 @@ export default function ShopPage() {
     loadProducts();
   }, []);
 
+  const filteredProducts = selectedCategory === 'All' 
+    ? products 
+    : selectedCategory === 'Best Sellers'
+    ? products.filter(p => p.isBestSeller)
+    : products.filter(p => p.category?.toLowerCase() === selectedCategory.toLowerCase());
+
   return (
     <div className={styles.page}>
       <div className={styles.header}>
@@ -31,14 +40,26 @@ export default function ShopPage() {
         <p>Your feel-good treats start here.</p>
       </div>
 
+      <div className={styles.filters}>
+        {categories.map(cat => (
+          <button
+            key={cat}
+            className={`${styles.filterBtn} ${selectedCategory === cat ? styles.active : ''}`}
+            onClick={() => setSelectedCategory(prev => prev === cat ? 'All' : cat)}
+          >
+            {cat}
+          </button>
+        ))}
+      </div>
+
       {loading ? (
         <div className={styles.loading}>
           <div className={styles.spinner} />
           <p>Loading products...</p>
         </div>
-      ) : products.length > 0 ? (
+      ) : filteredProducts.length > 0 ? (
         <div className={styles.grid}>
-          {products.map((product) => (
+          {filteredProducts.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}
         </div>
@@ -49,8 +70,8 @@ export default function ShopPage() {
             <circle cx="8.5" cy="8.5" r="1.5" />
             <path d="M21 15l-5-5L5 21" />
           </svg>
-          <h2>No products yet</h2>
-          <p>Check back soon for our delicious treats!</p>
+          <h2>No products found</h2>
+          <p>Try selecting a different category.</p>
         </div>
       )}
     </div>
