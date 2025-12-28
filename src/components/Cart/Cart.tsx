@@ -19,9 +19,10 @@ export default function Cart() {
   const [showCheckout, setShowCheckout] = useState(false);
   const [customerName, setCustomerName] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
+  const [address, setAddress] = useState('');
   const [orderConfirmed, setOrderConfirmed] = useState(false);
 
-  const isFormValid = customerName.trim() !== '' && phoneNumber.trim() !== '';
+  const isFormValid = customerName.trim() !== '' && phoneNumber.trim() !== '' && address.trim() !== '';
 
   const handleConfirmOrder = () => {
     if (isFormValid) {
@@ -30,6 +31,7 @@ export default function Cart() {
         items,
         customerName,
         phoneNumber,
+        address,
         total: getTotal(),
       });
       setOrderConfirmed(true);
@@ -40,6 +42,7 @@ export default function Cart() {
         setOrderConfirmed(false);
         setCustomerName('');
         setPhoneNumber('');
+        setAddress('');
       }, 3000);
     }
   };
@@ -106,6 +109,16 @@ export default function Cart() {
                 value={phoneNumber}
                 onChange={(e) => setPhoneNumber(e.target.value)}
                 placeholder="Enter your phone number"
+              />
+            </div>
+            <div className={styles.formGroup}>
+              <label htmlFor="address">Delivery Address *</label>
+              <textarea
+                id="address"
+                value={address}
+                onChange={(e) => setAddress(e.target.value)}
+                placeholder="Enter your delivery address"
+                rows={3}
               />
             </div>
 

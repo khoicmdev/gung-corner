@@ -237,6 +237,24 @@
   border-color: #697630;
 }
 
+.formGroup textarea {
+  width: 100%;
+  padding: 0.875rem 1rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: inherit;
+  background: white;
+  transition: border-color 0.2s;
+  resize: vertical;
+  min-height: 80px;
+}
+
+.formGroup textarea:focus {
+  outline: none;
+  border-color: #697630;
+}
+
 .orderSummary {
   background: rgba(105, 118, 48, 0.05);
   border-radius: 12px;

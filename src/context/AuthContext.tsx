@@ -1,46 +1,57 @@
 'use client';
 
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { account } from '@/lib/appwrite';
 
 interface AuthContextType {
   isAdmin: boolean;
-  login: (username: string, password: string) => boolean;
-  logout: () => void;
+  isLoading: boolean;
+  login: (email: string, password: string) => Promise<boolean>;
+  logout: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-// Temporary admin credentials
-const ADMIN_USERNAME = 'admin';
-const ADMIN_PASSWORD = 'root';
-
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [isAdmin, setIsAdmin] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   // Check session on mount
   useEffect(() => {
-    const session = localStorage.getItem('gung-corner-admin');
-    if (session === 'true') {
-      setIsAdmin(true);
-    }
+    const checkSession = async () => {
+      try {
+        await account.get();
+        setIsAdmin(true);
+      } catch {
+        setIsAdmin(false);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    checkSession();
   }, []);
 
-  const login = (username: string, password: string): boolean => {
-    if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
+  const login = async (email: string, password: string): Promise<boolean> => {
+    try {
+      await account.createEmailPasswordSession(email, password);
       setIsAdmin(true);
-      localStorage.setItem('gung-corner-admin', 'true');
       return true;
+    } catch {
+      return false;
     }
-    return false;
   };
 
-  const logout = () => {
+  const logout = async () => {
+    try {
+      await account.deleteSession('current');
+    } catch {
+      // Session might already be invalid
+    }
     setIsAdmin(false);
-    localStorage.removeItem('gung-corner-admin');
   };
 
   return (
-    <AuthContext.Provider value={{ isAdmin, login, logout }}>
+    <AuthContext.Provider value={{ isAdmin, isLoading, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
